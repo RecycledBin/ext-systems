@@ -37,12 +37,17 @@ class SimpleServer extends Thread {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
 
             StringBuilder sb = new StringBuilder("Hello, ");
-            String userName = br.readLine();
-            System.out.println("Server got string:" + userName);
-            Thread.sleep(2000);
+            String request = br.readLine();
+            String[] lines = request.split("\\s+");
+            String userName = lines[1];
+            String command = lines[0];
+            System.out.println("Server got string1:" + command);
+            System.out.println("Server got string2:" + userName);
+//            Thread.sleep(2000);
 
+            String response = buildResponse(command, userName);
             sb.append(userName);
-            bw.write(sb.toString());
+            bw.write(response);
             bw.newLine();
             bw.flush();
 
@@ -54,6 +59,16 @@ class SimpleServer extends Thread {
         }catch(Exception ex) {
             ex.printStackTrace(System.out);
 
+        }
+    }
+
+    private String buildResponse( String command, String userName) {
+        switch(command) {
+            case "HELLO" : return "Hello, " + userName;
+            case "MORNING" : return "Good morning, " + userName;
+            case "DAY" : return "Good day, " + userName;
+            case "EVENING" : return "Good evening, " + userName;
+            default : return "Hi, " + userName;
         }
     }
 }
