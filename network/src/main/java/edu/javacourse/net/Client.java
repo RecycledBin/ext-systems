@@ -4,10 +4,9 @@ import java.io.*;
 import java.net.Socket;
 import java.time.LocalDateTime;
 
-public class Client
-{
+public class Client {
     public static void main(String[] args) throws IOException {
-        for (int i=0; i<8; i++) {
+        for (int i = 0; i < 8; i++) {
             SimpleClient sc = new SimpleClient(i);
             sc.start();
         }
