@@ -16,12 +16,12 @@ public class SimpleSocket
         InputStream is = socket.getInputStream();
         OutputStream os = socket.getOutputStream();
 
-        String command = "GET /ttt HTTP/1.1\r\nHost:java-course.ru\r\n\r\n";
+        String command = "GET / HTTP/1.1\r\nHost:java-course.ru\r\n\r\n";
         os.write(command.getBytes());
         os.flush();
 
         int c = 0;
-        while ((c = is.read()) != -1) {
+        while ( (c = is.read()) != -1) {
             System.out.print((char)c);
         }
 

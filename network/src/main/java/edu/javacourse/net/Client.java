@@ -1,16 +1,22 @@
 package edu.javacourse.net;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.time.LocalDateTime;
 
-public class Client {
+public class Client
+{
     public static void main(String[] args) throws IOException {
-        for (int i = 0; i < 8; i++) {
+        for(int i=0; i<8; i++) {
             SimpleClient sc = new SimpleClient(i);
             sc.start();
         }
     }
+
 }
 
 class SimpleClient extends Thread {
@@ -28,7 +34,7 @@ class SimpleClient extends Thread {
     @Override
     public void run() {
         try {
-//            System.out.println("STARTED! " + LocalDateTime.now());
+//            System.out.println("Started:" + LocalDateTime.now());
             Socket socket = new Socket("127.0.0.1", 25225);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -36,19 +42,18 @@ class SimpleClient extends Thread {
 
             String command = COMMAND[cmdNumber % COMMAND.length];
             String sb = command + " " + "Anton";
-
             bw.write(sb);
             bw.newLine();
             bw.flush();
 
             String answer = br.readLine();
-            System.out.println("Client got string: " + answer);
+            System.out.println("Client got string:" + answer);
 
             br.close();
             bw.close();
-//            System.out.println("FINISHED! " + LocalDateTime.now());
-        } catch (IOException ex) {
-            ex.printStackTrace();
+//            System.out.println("Finished:" + LocalDateTime.now());
+        } catch(IOException ex) {
+            ex.printStackTrace(System.out);
         }
     }
 }

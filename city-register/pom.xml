@@ -6,10 +6,12 @@
 
     <groupId>edu.javacourse.ext</groupId>
     <artifactId>city-register</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <packaging>war</packaging>
+
     <build>
         <plugins>
             <plugin>
@@ -20,6 +22,15 @@
                     <target>8</target>
                 </configuration>
                 <version>3.8.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+                <version>3.2.3</version>
             </plugin>
         </plugins>
     </build>
@@ -32,12 +43,17 @@
             <version>42.2.5</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
         </dependency>
 
     </dependencies>

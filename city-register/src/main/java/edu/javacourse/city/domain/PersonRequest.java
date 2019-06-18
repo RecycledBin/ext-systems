@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public class PersonRequest
 {
-     private String surName;
-     private String givenName;
-     private String patronymic;
-     private LocalDate dateOfBirth;
-     private Integer streetCode;
-     private String building;
-     private String extension;
-     private String apartment;
+    private String surName;
+    private String givenName;
+    private String patronymic;
+    private LocalDate dateOfBirth;
+    private Integer streetCode;
+    private String building;
+    private String extension;
+    private String apartment;
 
     public String getSurName() {
         return surName;

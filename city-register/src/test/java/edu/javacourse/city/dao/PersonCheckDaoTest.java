@@ -10,7 +10,8 @@ import java.time.LocalDate;
 
 import static org.junit.Assert.*;
 
-public class PersonCheckDaoTest {
+public class PersonCheckDaoTest
+{
 
     @Test
     public void checkPerson() throws PersonCheckException {
@@ -26,7 +27,6 @@ public class PersonCheckDaoTest {
 
         PersonCheckDao dao = new PersonCheckDao();
         PersonResponse ps = dao.checkPerson(pr);
-
         Assert.assertTrue(ps.isRegistered());
         Assert.assertFalse(ps.isTemporal());
     }
@@ -43,7 +43,6 @@ public class PersonCheckDaoTest {
 
         PersonCheckDao dao = new PersonCheckDao();
         PersonResponse ps = dao.checkPerson(pr);
-
         Assert.assertTrue(ps.isRegistered());
         Assert.assertFalse(ps.isTemporal());
     }

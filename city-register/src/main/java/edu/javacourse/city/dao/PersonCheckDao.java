@@ -4,36 +4,41 @@ import edu.javacourse.city.domain.PersonRequest;
 import edu.javacourse.city.domain.PersonResponse;
 import edu.javacourse.city.exception.PersonCheckException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class PersonCheckDao
 {
     private static final String SQL_REQUEST =
-            "SELECT temporal, UPPER(p.sur_name) FROM cr_address_person ap " +
-                "INNER JOIN cr_person p ON p.person_id = ap.person_id " +
-                "INNER JOIN cr_address a ON a.address_id = ap.address_id " +
-                "WHERE " +
-                "CURRENT_DATE >= ap.start_date " +
-                "  AND (CURRENT_DATE <= ap.end_date OR ap.end_date IS NULL)" +
-                "  AND UPPER(p.sur_name) = UPPER(? COLLATE \"en_US\") " +
-                "  AND UPPER(p.given_name) = UPPER(? COLLATE \"en_US\") " +
-                "  AND UPPER(p.patronymic) = UPPER(? COLLATE \"en_US\") " +
-                "  AND p.date_of_birth = ? AND a.street_code = ? " +
-                "  AND UPPER(a.building) = UPPER(? COLLATE \"en_US\") ";
+            "select temporal from cr_address_person ap " +
+                    "inner join cr_person p on p.person_id = ap.person_id " +
+                    "inner join cr_address a on a.address_id = ap.address_id " +
+                    "where " +
+                    "CURRENT_DATE >= ap.start_date and (CURRENT_DATE <= ap.end_date or ap.end_date is null)" +
+                    "and upper(p.sur_name COLLATE \"en_US\") = upper(? COLLATE \"en_US\")  " +
+                    "and upper(p.given_name COLLATE \"en_US\") = upper(? COLLATE \"en_US\")  " +
+                    "and upper(patronymic COLLATE \"en_US\") = upper(? COLLATE \"en_US\")  " +
+                    "and p.date_of_birth = ? " +
+                    "and a.street_code = ?  " +
+                    "and upper(a.building COLLATE \"en_US\") = upper(? COLLATE \"en_US\")  ";
+
 
     public PersonResponse checkPerson(PersonRequest request) throws PersonCheckException {
         PersonResponse response = new PersonResponse();
 
         String sql = SQL_REQUEST;
         if (request.getExtension() != null) {
-            sql += "  AND UPPER(a.extension) = UPPER(? COLLATE \"en_US\") ";
+            sql += "and upper(a.extension COLLATE \"en_US\") = upper(? COLLATE \"en_US\")  ";
         } else {
-            sql += " AND a.extension IS NULL ";
+            sql += "and extension is null ";
         }
         if (request.getApartment() != null) {
-            sql += "  AND UPPER(a.apartment) = UPPER(? COLLATE \"en_US\")";
+            sql += "and upper(a.apartment COLLATE \"en_US\") = upper(? COLLATE \"en_US\") ";
         } else {
-            sql += "AND a.apartment IS NULL";
+            sql += "and a.apartment is null ";
         }
 
         try (Connection con = getConnection();
@@ -46,15 +51,18 @@ public class PersonCheckDao
             stmt.setDate(count++, java.sql.Date.valueOf(request.getDateOfBirth()));
             stmt.setInt(count++, request.getStreetCode());
             stmt.setString(count++, request.getBuilding());
-            if (request.getExtension() != null) stmt.setString(count++, request.getExtension());
-            if (request.getApartment() != null) stmt.setString(count++, request.getApartment());
+            if (request.getExtension() != null) {
+                stmt.setString(count++, request.getExtension());
+            }
+            if (request.getApartment() != null) {
+                stmt.setString(count++, request.getApartment());
+            }
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 response.setRegistered(true);
                 response.setTemporal(rs.getBoolean("temporal"));
             }
-
         } catch(SQLException ex) {
             throw new PersonCheckException(ex);
         }
