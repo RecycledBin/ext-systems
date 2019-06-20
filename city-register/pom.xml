@@ -33,6 +33,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <outputDirectory>/home/admin/</outputDirectory>
                 </configuration>
                 <version>3.2.3</version>
             </plugin>
