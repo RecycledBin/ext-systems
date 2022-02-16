@@ -10,7 +10,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jersey.version>2.28</jersey.version>
-        <postgres.version>42.2.5</postgres.version>
+        <postgres.version>42.3.3</postgres.version>
         <jaxb.version>2.3.1</jaxb.version>
     </properties>
     <packaging>war</packaging>
